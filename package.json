@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:server": "npx http-server --cors -p 8081",
-    "start:ui": "npx qode ui.js",
+    "start:ui": "npx qode tray-ui.js",
     "start": "npm-run-all --parallel start:server start:ui"
   },
   "author": "",

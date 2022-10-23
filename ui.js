@@ -5,7 +5,7 @@ const {
     FlexLayout,
     QMovie,
     WindowType,
-    QGraphicsDropShadowEffect
+    QGraphicsDropShadowEffect,
 } = require("@nodegui/nodegui");
 const { detectFaceTouch, setupFaceTouchAI } = require('./face-touch');
 const { startCamera } = require('./camera');
@@ -21,6 +21,9 @@ const setupUi = async (model) => {
 
     win.setWindowFlag(WindowType.WindowStaysOnTopHint, true);
     win.setWindowFlag(WindowType.FramelessWindowHint, true);
+    win.setWindowFlag(WindowType.WindowDoesNotAcceptFocus, true);
+
+
 
     win.resize(50, 50);
     win.setWindowOpacity(0.8);
@@ -68,29 +71,18 @@ const setupUi = async (model) => {
         if (result) {
             win.show();
             win.raise();
-            win.activateWindow();
-
-
             frame.show();
-
-            frame.activateWindow();
             frame.raise();
-
-            // label.setText("stop touching your face");
-
 
 
         } else {
             win.hide();
             win.lower();
-            win.activateWindow();
             frame.hide();
 
-            frame.activateWindow();
             frame.raise();
 
             frame.lower();
-            // label.setText("all good");
 
         }
 
