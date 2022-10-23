@@ -20,10 +20,12 @@ const init = async () => {
         const result = await detectFaceTouch(model);
 
         if (result) {
+            console.log('show')
             tray.show();
 
-
         } else {
+            console.log('hide')
+
             tray.hide();
 
 
