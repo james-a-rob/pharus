@@ -18,9 +18,8 @@ const stopCamera = async () => {
 const takePicture = async () => {
     const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-    let f = await camera.value.readFrame()               // PNG as configured
+    let f = await camera.value.readFrame();
     fs.writeFileSync('tmp.png', f.data)
-    // fs.writeFileSync('tmp6.webm', data);
 
 }
 module.exports = {

@@ -6,7 +6,6 @@ Pharus is cross platform desktop app that offers real-time feedback on your body
 
 Deliver presentations and talks with more impact. Works perfectly with all conferencing (e.g. Zoom) and presentation software (e.g. Google Slides).
 
-[image]
 
 # The Name
 ## Meaning
