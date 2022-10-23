@@ -2,7 +2,7 @@ const { QSystemTrayIcon, QIcon } = require("@nodegui/nodegui");
 const { detectFaceTouch, setupFaceTouchAI } = require('./face-touch');
 const { startCamera } = require('./camera');
 const trayIcon = new QIcon(
-    "facepalm-icon-color.png")
+    "facepalm-icon-color-4.png")
 
 
 const init = async () => {
