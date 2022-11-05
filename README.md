@@ -26,3 +26,7 @@ While giving a speech, most of the bad habits with body language  are unconsciou
 # Setup
 ## Window
 Make sure the Pharus icons always appear on Windows by following this tutorial https://winaero.com/always-show-tray-icons-windows-10/
+
+# FAQ
+Why do I get an alert about facing touching when im not touching my face?
+Make sure the camera is positioned directly at the middle of your face. Also make sure you are not too close to the camera, you will want to be atleast 50cm away.

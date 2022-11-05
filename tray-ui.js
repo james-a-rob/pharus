@@ -41,11 +41,9 @@ const init = async () => {
         await new Promise(r => setTimeout(r, 2000));
 
         const result = await detectFaceTouch(model);
-
         if (result) {
+
             exec('afplay precussion.mp3')
-
-
             console.log('show')
             tray.show();
 

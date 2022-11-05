@@ -17,7 +17,13 @@ function executeAsync(model) {
             const result = await model.executeAsync(data);
 
             const [chanceNoFace, chanceNotTouching, chanceTouching] = result[0];
-            resolve(chanceTouching > 0.01 && chanceNotTouching < 0.002);
+            console.log(chanceTouching);
+            console.log(chanceTouching > 0.02);
+            console.log(chanceNotTouching);
+            console.log(chanceNotTouching < 0.08);
+            // resolve(chanceTouching > 0.02 && chanceNotTouching < 0.002);
+            resolve(chanceTouching > 0.02 && chanceNotTouching < 0.007);
+
         })
     });
 }
