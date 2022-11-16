@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Pharus</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/@mui/material@5.10.13/umd/material-ui.production.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+
+
+  <div id="root"></div>
+
+  <video id="video" width="320" height="240" autoplay></video>
+  <canvas id="canvas" width="320" height="240"></canvas>
+</body>
+
+</html>
+
+<script>
+  let video = document.querySelector("#video");
+  let canvas = document.querySelector("#canvas");
+  let imageData = document.querySelector("#image-data");
+
+  (async () => {
+    let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+    video.srcObject = stream;
+    setInterval(() => {
+      canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+      let imageDataUrl = canvas.toDataURL('image/jpeg');
+
+      window.electronAPI.inputCaptured({
+        type: 'webcam-image',
+        content: imageDataUrl
+      })
+    }, 2000);
+
+    // setInterval(() => {
+    let audioStream = await navigator.mediaDevices.getUserMedia({ video: false, audio: true });
+
+    const mediaRecorder = new MediaRecorder(audioStream);
+    mediaRecorder.start();
+    const audioChunks = [];
+
+    mediaRecorder.addEventListener("dataavailable", event => {
+      audioChunks.push(event.data);
+    });
+
+    mediaRecorder.addEventListener("stop", async () => {
+      console.log("stop");
+      const audioBlob = new Blob(audioChunks, { type: 'audio/webm; codecs=opus' });
+
+
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const reader = new FileReader();
+      reader.readAsDataURL(audioBlob);
+      reader.onloadend = function () {
+        var base64data = reader.result;
+        window.electronAPI.inputCaptured({
+          type: 'mic',
+          content: base64data
+        })
+        // console.log(base64data);
+
+      }
+
+      const audio = new Audio(audioUrl);
+      audio.play();
+    });
+
+    setTimeout(() => {
+      mediaRecorder.stop();
+    }, 10000);
+    // }, 5000);
+
+
+  })();
+
+</script>
+
+<script type="text/babel">
+  const HomeHeader = ({ setScreen }) => {
+    console.log("header")
+    return (
+      <div className="header">
+        <img onClick={() => { setScreen('settings') }} className="header-icon" src="images/settings.png" />
+        <img onClick={() => { setScreen('analytics') }} className="header-icon" src="images/analytics.png" />
+      </div>
+    )
+  }
+  const MainControls = ({ hasStarted, setHasStarted }) => {
+    return (
+      <div className="main-controls">
+        <img className="main-controls-icon" onClick={() => { setHasStarted(!hasStarted) }} src="images/start.png" />
+        <div className="main-controls-label" onClick={() => { setHasStarted(!hasStarted) }}>{hasStarted ? 'Click to stop' : 'Click to start'}</div>
+      </div>
+    )
+  }
+
+  const Footer = () => {
+    return (<div className="footer">
+      <div className="footer-app-name">Pharus</div>
+      <div className="footer-app-description">
+        <p>Real-time Speaking Coach</p>
+        <img className="footer-app-icon" src="images/lighthouse.png" />
+
+      </div>
+
+    </div>);
+
+  }
+
+  const Home = ({ setScreen }) => {
+    const [hasStarted, setHasStarted] = React.useState(false);
+    return (
+      <div>
+        <HomeHeader setScreen={setScreen} />
+        <MainControls hasStarted={hasStarted} setHasStarted={setHasStarted} />
+        <Footer />
+      </div>
+    )
+  }
+
+  const SettingsHeader = ({ setScreen }) => {
+    return (
+      <div className="settings-header">
+        <img onClick={() => { setScreen('home') }} className="header-icon" src="images/back.png" />
+      </div>
+    )
+  }
+
+  const SettingsControls = ({ setScreen }) => {
+    const [config, setConfig] = React.useState({
+      notificationsEnabled: false
+    });
+
+    const handleChange = (event, newValue) => {
+      setValue(newValue);
+    };
+
+    const handleNotificationsConfigChange = (event) => {
+      console.log('checked', event.target.checked)
+      const updatedConfig = {
+        notificationsEnabled: event.target.checked
+      }
+      setConfig(
+        updatedConfig
+      );
+      window.electronAPI.configChanged(updatedConfig);
+    }
+
+    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
+    return (
+      <div className="settings-controls">
+        <div className="settings-control">
+          <div className="settings-control-label">Enable sound FX</div>
+          <MaterialUI.Checkbox
+            checked={config.notificationsEnabled}
+            onChange={handleNotificationsConfigChange}
+            {...label} />
+
+        </div>
+        <div className="settings-control">
+          <div className="settings-control-label">Enable notifications</div>
+          <MaterialUI.Checkbox
+            checked={config.notificationsEnabled}
+            onChange={handleNotificationsConfigChange}
+            {...label} />
+        </div>
+        <div className="settings-control">
+          <div className="settings-control-label">Enable tray icon</div>
+          <MaterialUI.Checkbox
+            checked={config.notificationsEnabled}
+            onChange={handleNotificationsConfigChange}
+            {...label} />
+        </div>
+
+      </div>
+    )
+  }
+
+  const SettingsTitle = ({setScreen}) => {
+    return (
+      <div className="settings-title">
+        Settings
+      </div>
+    )
+  }
+
+  const Settings = ({ setScreen }) => {
+    return (
+      <div>
+        <SettingsHeader setScreen={setScreen} />
+        <SettingsTitle />
+        <SettingsControls />
+      </div>
+    )
+  }
+
+  const AnalyticsHeader = ({ setScreen }) => {
+    return (
+      <div className="analytics-header">
+        <img onClick={() => { setScreen('home') }} className="header-icon" src="images/back.png" />
+      </div>
+    )
+  }
+
+  const AnalyticsPreview = ({})=>{
+    return (
+      <div className="analytics-preview">Analytics Coming Soon</div>
+    )
+  }
+
+  const Analytics = ({setScreen}) => {
+    return (<div>
+      <AnalyticsHeader setScreen={setScreen}/>
+      <AnalyticsPreview/>
+    </div>
+    )
+  }
+
+
+  const App = () => {
+    const [screen, setScreen] = React.useState("home");// home|settings|metrics
+
+    const [value, setValue] = React.useState(0);
+
+
+
+
+    switch (screen) {
+      case "home":
+        return (<Home setScreen={setScreen} />)
+        break;
+      case "settings":
+        return (<Settings setScreen={setScreen} />)
+        break;
+      case "analytics":
+        return (<Analytics setScreen={setScreen} />)
+        break;
+      default:
+        return (<Home setScreen={setScreen}/>)
+    }
+
+  };
+
+
+  ReactDOM.render(
+    <App />,
+    document.getElementById('root'),
+  );
+</script>

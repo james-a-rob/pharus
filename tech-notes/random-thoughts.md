@@ -1,1 +1,0 @@
-Capture detection feedback 
