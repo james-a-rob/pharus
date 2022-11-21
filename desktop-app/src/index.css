@@ -60,7 +60,7 @@ body {
 
 .footer {
   height: 20vh;
-  background: #8574ED;
+  background: #BB76EE;
   color: white;
   display: flex;
   flex-direction: column;
@@ -83,13 +83,15 @@ body {
   font-weight: 200;
   align-items: center;
   display: flex;
-  margin-left:12px;
-  margin-right:12px;
+  margin-left:14px;
+  margin-right:14px;
   justify-content: space-between;
 }
 
 .footer-app-icon{
   width:38px;
+  margin-bottom: 14px;
+  margin-right: 6px;
 }
 
 .settings-header {

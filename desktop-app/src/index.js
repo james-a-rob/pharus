@@ -36,7 +36,7 @@ const handleImageCapture = async (image) => {
     faceTouchingTrayIcon = new Tray(path.join(__dirname, 'images/tray-icons/face-touch.png'));
     sound.play(path.join(__dirname, 'sounds/precussion.mp3'));
     if (config.notificationsEnabled) {
-      new Notification({ title: "Face touching", body: "Watch what your doing with your hands", silent: true }).show()
+      new Notification({ title: "Watch your body language", body: "Make sure not to touch your face when you talk", silent: true }).show()
 
     }
 
