@@ -1,0 +1,35 @@
+.footer {
+    height: 20vh;
+    background: #BB76EE;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-app-name {
+    flex: 1;
+    font-size: 28px;
+    font-weight: 600;
+    align-items: center;
+    display: flex;
+    margin-left: 12px;
+    margin-right: 12px;
+
+}
+
+.footer-app-description {
+    flex: 1;
+    font-size: 20px;
+    font-weight: 200;
+    align-items: center;
+    display: flex;
+    margin-left: 14px;
+    margin-right: 14px;
+    justify-content: space-between;
+}
+
+.footer-app-icon {
+    width: 38px;
+    margin-bottom: 14px;
+    margin-right: 6px;
+}

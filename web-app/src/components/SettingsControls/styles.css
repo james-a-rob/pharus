@@ -1,0 +1,15 @@
+.settings-controls {
+    margin: 20px;
+}
+
+.settings-control {
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.settings-control-label {
+    font-size: 18px;
+    font-weight: 200;
+}

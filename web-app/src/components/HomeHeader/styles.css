@@ -1,0 +1,17 @@
+.header {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 12px;
+}
+
+.header-icon {
+    width: 32px;
+    margin: 4px;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.header-icon:hover {
+    opacity: 1;
+
+}
